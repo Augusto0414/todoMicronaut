@@ -1,0 +1,29 @@
+micronaut:
+  application:
+    name: todoMicronaut
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
+datasources:
+  default:
+    url: ${DATASOURCE_URL:`jdbc:postgresql://localhost:5433/todoApp`}
+    driver-class-name: org.postgresql.Driver
+    db-type: ${DATASOURCE_DB_TYPE:postgres}
+    dialect: ${DATASOURCE_DIALECT:POSTGRES}
+    username: ${DATASOURCE_USERNAME:postgres}
+    password: ${DATASOURCE_PASSWORD:password}
+netty:
+  default:
+    allocator:
+      max-order: 3
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update

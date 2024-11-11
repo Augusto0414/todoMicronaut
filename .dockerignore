@@ -1,0 +1,42 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+*.log
+.DS_Store
+.idea/
+.vscode/
+*.md
+
+# Python (para FastAPI)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+*.log
+*.db
+*.sqlite3
+*.tox/
+*.coverage
+*.hypothesis/
+*.pytest_cache/
+*.mypy_cache/
+
+# Java (Micronaut)
+target/
+*.log
+*.jar
+*.war
+*.ear
+*.class
+*.iml
+.idea/
+
+# Archivos generales
+*.tgz
+*.zip
+*.tar
+.git/
+.gitignore
+*.md

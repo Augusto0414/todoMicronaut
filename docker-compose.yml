@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  # Servicio para la base de datos PostgreSQL
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: todoApp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432" # Exponemos el puerto 5432 del contenedor como 5433 en el host
+    networks:
+      - micronaut-net
+
+  # Servicio para la aplicación Micronaut, usando la imagen construida
+  micronaut:
+    image: my-app # Aquí deberías poner el nombre de la imagen que has construido con el Dockerfile
+    environment:
+      DATASOURCE_URL: jdbc:postgresql://postgres:5432/todoApp # Conexión a la BD
+      DATASOURCE_USERNAME: postgres
+      DATASOURCE_PASSWORD: password
+      DATASOURCE_DB_TYPE: postgres
+      DATASOURCE_DIALECT: POSTGRES
+      APP_PORT: 8080
+    ports:
+      - "8080:8080" # Exponemos el puerto 8080 para acceder a la aplicación
+    depends_on:
+      - postgres # El contenedor de Micronaut depende de que PostgreSQL esté listo
+    networks:
+      - micronaut-net
+    restart: unless-stopped
+
+# Redes de contenedores
+networks:
+  micronaut-net:
+    driver: bridge
