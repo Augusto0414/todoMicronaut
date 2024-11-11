@@ -56,22 +56,30 @@ public class TodoController {
     @Operation(summary = "Actualizar una tarea existente",
             description = "Actualiza una tarea con el ID especificado.")
     @ApiResponse(responseCode = "200", description = "Tarea actualizada exitosamente")
-    @ApiResponse(responseCode = "204", description = "No se encontró tarea para actualizar")
+    @ApiResponse(responseCode = "404", description = "No se encontró tarea para actualizar")
     @ApiResponse(responseCode = "400", description = "Petición incorrecta")
     @RequestBody(description = "Datos actualizados de la tarea",
             required = true,
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Todo.class),
                     examples = @ExampleObject(value = """
-                                        {
-                                            "title": "Estudiar Spring Boot",
-                                            "description": "Revisar ejemplos de Spring Boot para comparar con Micronaut",
-                                            "completed": true
-                                        }
-                                        """)))
+                        {
+                            "title": "Estudiar Spring Boot",
+                            "description": "Revisar ejemplos de Spring Boot para comparar con Micronaut",
+                            "completed": true
+                        }
+                        """)))
     public HttpResponse<Todo> updateTodo(UUID id, @Body Todo todo) {
-        Todo todoResponse = todoService.todoUpdate(id, todo);
-        return todoResponse != null ? HttpResponse.ok() : HttpResponse.noContent();
+        try {
+            Todo updatedTodo = todoService.todoUpdate(id, todo);
+            if (updatedTodo != null) {
+                return HttpResponse.ok(updatedTodo);  // Devolvemos el objeto actualizado
+            } else {
+                return HttpResponse.notFound();  // Retornamos 404 si no se encuentra
+            }
+        } catch (Exception e) {
+            return HttpResponse.serverError();
+        }
     }
 
     @Delete("/{id}")
