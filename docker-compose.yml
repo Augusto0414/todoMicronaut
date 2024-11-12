@@ -15,7 +15,7 @@ services:
 
   # Servicio para la aplicación Micronaut, usando la imagen construida
   micronaut:
-    image: my-app # Aquí deberías poner el nombre de la imagen que has construido con el Dockerfile
+    image: micronaut # Aquí deberías poner el nombre de la imagen que has construido con el Dockerfile
     environment:
       DATASOURCE_URL: jdbc:postgresql://postgres:5432/todoApp # Conexión a la BD
       DATASOURCE_USERNAME: postgres
